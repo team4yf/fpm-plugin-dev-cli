@@ -1,0 +1,7 @@
+src/
+dev/
+sql/
+views/
+db.lock
+*.zip
+starter/

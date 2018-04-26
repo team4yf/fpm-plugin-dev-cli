@@ -1,0 +1,33 @@
+{
+  "name": "fpm-plugin-dev-cli",
+  "version": "1.0.0",
+  "description": "fpm-plugin-dev-cli",
+  "main": "cli.js",
+  "scripts": {
+    "test": "node ./cli.js init"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/team4yf/fpm-plugin-dev-cli.git"
+  },
+  "keywords": [
+    "fpm-dev",
+    "cli"
+  ],
+  "author": "yfsoftcom",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/team4yf/fpm-plugin-dev-cli/issues"
+  },
+  "preferGlobal": "true",
+  "bin": {
+    "fpm-plugin": "cli.js"
+  },
+  "homepage": "https://github.com/team4yf/fpm-plugin-dev-cli#readme",
+  "dependencies": {
+    "commander": "^2.9.0",
+    "lodash": "^4.16.4",
+    "request": "^2.85.0",
+    "unzip": "^0.1.11"
+  }
+}
