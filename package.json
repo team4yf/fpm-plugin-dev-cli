@@ -1,6 +1,6 @@
 {
   "name": "fpm-plugin-dev-cli",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "fpm-plugin-dev-cli",
   "main": "cli.js",
   "scripts": {
