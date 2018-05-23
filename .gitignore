@@ -26,3 +26,4 @@ db.lock
 config.json
 starter/
 *.zip
+template/

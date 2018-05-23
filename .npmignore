@@ -4,4 +4,4 @@ sql/
 views/
 db.lock
 *.zip
-starter/
+template/
