@@ -7,6 +7,11 @@ cnpm i -g fpm-plugin-dev-cli
 ```
 
 ### Useage
+```bash
+fpm-plugin update
+```
+
+it will update the lasted template project from github
 
 ```bash
 fpm-plugin init sms
