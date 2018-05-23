@@ -2,7 +2,6 @@
 'use strict';
 const path = require('path');
 const fs = require('fs');
-const unzip = require("unzip");
 const program = require('commander');
 const version = require('./package.json').version;
 const download = require('download-git-repo');
