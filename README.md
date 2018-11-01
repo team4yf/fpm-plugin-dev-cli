@@ -3,7 +3,7 @@
 
 ### Install
 ```bash
-cnpm i -g fpm-plugin-dev-cli
+npm i -g fpm-plugin-dev-cli
 ```
 
 ### Useage

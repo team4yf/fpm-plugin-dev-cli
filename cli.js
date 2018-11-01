@@ -9,7 +9,6 @@ const download = require('download-git-repo');
 const dir = process.cwd();
 const local = __dirname;
 const TEMPLATE_DIR = path.join(local, 'template', 'fpm-plugin');
-const TEMPLATE_PKG_PATH = path.join(TEMPLATE_DIR, 'package.json');
 
 const GIT_REP = 'team4yf/fpm-plugin-dev-template';
 
@@ -55,14 +54,6 @@ const rename = (plugin) => {
     })
 }
 
-const unzipProject = (pluginName) => {
-    fs.createReadStream(filepath)
-        .pipe(unzip.Extract({ path: '.' }))
-        .on('close', () => {
-            rename(pluginName)
-        })
-}
-
 program.command('update')
     .description('update the fpm plugin template project')
     .action(function(){
@@ -86,7 +77,7 @@ const init = (pluginProjectName) => {
     const pkginfo = require(pluginPkgPath)
     pkginfo.name = pluginProjectName
     pkginfo.description = `A Plugin Named [${ pluginProjectName }] For YF-FPM-SERVER~`
-    
+
     fs.writeFile(pluginPkgPath, JSON.stringify(pkginfo, null, 2), function(err){
         if(err){
             console.error(err);
