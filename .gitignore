@@ -27,3 +27,4 @@ config.json
 starter/
 *.zip
 template/
+yarn.lock
