@@ -5,6 +5,7 @@ const fs = require('fs');
 const program = require('commander');
 const version = require('./package.json').version;
 const download = require('download-git-repo');
+const nunjucks = require('nunjucks');
 
 const dir = process.cwd();
 const local = __dirname;
@@ -50,7 +51,8 @@ const copydir = (src, dest) => {
 
 }
 
-program.option('-t, --template <type>', 'project template, support node/golang', 'node')
+program.option('-t, --template <template>', 'project template, support node/golang', 'golang')
+program.option('-n, --name <name>', 'project name', 'foo')
 
 program.command('update')
     .description('update the fpm plugin template project')
@@ -74,6 +76,18 @@ program.command('update')
 const init = (pluginProjectName) => {
     if(program.template == 'golang'){
         //TODO: init the golang project
+        try {
+            nunjucks.configure(pluginProjectName, { autoescape: true });
+            const files = ['README.md', 'go.mod', 'plugin/plugin.go', 'main.go'];
+            for(let i in files) {
+                let f = files[i];
+                fs.writeFileSync(path.join(pluginProjectName, f), nunjucks.render(f, { name: program.name }));
+            }
+            
+        } catch (error) {
+            console.error(error);
+        }
+        
         return;
     }
     const pluginPkgPath = path.join(dir, pluginProjectName, 'package.json')
@@ -94,9 +108,13 @@ program.command('init')
     .description('Init the fpm plugin project')
     .action(function(options) {
         const templateName = program.template;
-        const pluginName = options
-        const pluginProjectName = 'fpm-plugin-' + pluginName
+        const pluginName = program.name;
+        const pluginProjectName = 'fpm-' + (templateName=='golang' ? 'go-': '')+ 'plugin-' + pluginName
         const pluginProjectPath = path.join(dir, pluginProjectName)
+        if(fs.existsSync(pluginProjectPath)){
+            console.log(`Error: ${pluginProjectName} exists here!`);
+            return
+        }
         if(fs.existsSync(TEMPLATE_DIR + templateName)){
             // copy from disk
             copydir(TEMPLATE_DIR + templateName, pluginProjectPath);

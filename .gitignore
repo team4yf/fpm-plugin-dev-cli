@@ -29,3 +29,5 @@ starter/
 template/
 yarn.lock
 fpm-plugin*/
+fpm-go-plugin*/
+package-lock.json

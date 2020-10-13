@@ -8,15 +8,15 @@ npm i -g fpm-plugin-dev-cli
 
 ### Useage
 ```bash
-fpm-plugin update
+fpm-plugin update -t golang
 ```
 
 it will update the lasted template project from github
 
 ```bash
-fpm-plugin init sms
+fpm-plugin init -t golang -n sms
 ```
 
-it will create a project named `fpm-plugin-sms`
+it will create a project named `fpm-go-plugin-sms`
 
 then you can dev the project
