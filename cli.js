@@ -8,9 +8,12 @@ const download = require('download-git-repo');
 
 const dir = process.cwd();
 const local = __dirname;
-const TEMPLATE_DIR = path.join(local, 'template', 'fpm-plugin');
+const TEMPLATE_DIR = path.join(local, 'template', 'fpm-plugin-');
 
-const GIT_REP = 'team4yf/fpm-plugin-dev-template';
+const GIT_REP = {
+    node: 'team4yf/fpm-plugin-dev-template',
+    golang: 'team4yf/fpm-plugin-golang-dev-template',
+};
 
 program.version(version);
 
@@ -47,23 +50,19 @@ const copydir = (src, dest) => {
 
 }
 
-
-const rename = (plugin) => {
-    fs.rename('fpm-plugin-dev-template-master', 'fpm-plugin-' + (plugin || 'noname'), (err) => {
-        if(err) console.log(err)
-    })
-}
+program.option('-t, --template <type>', 'project template, support node/golang', 'node')
 
 program.command('update')
     .description('update the fpm plugin template project')
     .action(function(){
-        if(fs.existsSync(TEMPLATE_DIR)){
+        const templateName = program.template;
+        if(fs.existsSync(TEMPLATE_DIR + templateName)){
             // remove
             console.info('Remove The Older Template Project.')
             deletedir(TEMPLATE_DIR)
         }
         console.info('Download The Lasted Template Project.')
-        download(GIT_REP, TEMPLATE_DIR, function(err){
+        download(GIT_REP[program.template], TEMPLATE_DIR+ templateName, function(err){
             if(err){
                 console.error(err);
                 return;
@@ -73,6 +72,10 @@ program.command('update')
     })
 
 const init = (pluginProjectName) => {
+    if(program.template == 'golang'){
+        //TODO: init the golang project
+        return;
+    }
     const pluginPkgPath = path.join(dir, pluginProjectName, 'package.json')
     const pkginfo = require(pluginPkgPath)
     pkginfo.name = pluginProjectName
@@ -90,22 +93,23 @@ const init = (pluginProjectName) => {
 program.command('init')
     .description('Init the fpm plugin project')
     .action(function(options) {
+        const templateName = program.template;
         const pluginName = options
         const pluginProjectName = 'fpm-plugin-' + pluginName
         const pluginProjectPath = path.join(dir, pluginProjectName)
-        if(fs.existsSync(TEMPLATE_DIR)){
+        if(fs.existsSync(TEMPLATE_DIR + templateName)){
             // copy from disk
-            copydir(TEMPLATE_DIR, pluginProjectPath);
+            copydir(TEMPLATE_DIR + templateName, pluginProjectPath);
             init(pluginProjectName, pluginProjectPath)
             return;
         }
         console.info('Download The Lasted Template Project.')
-        download(GIT_REP, TEMPLATE_DIR, function(err){
+        download(GIT_REP[templateName], TEMPLATE_DIR + templateName, function(err){
             if(err){
                 console.error(err);
                 return;
             }
-            copydir(TEMPLATE_DIR, pluginProjectPath);
+            copydir(TEMPLATE_DIR + templateName, pluginProjectPath);
             init(pluginProjectName, pluginProjectPath)
         })
     });

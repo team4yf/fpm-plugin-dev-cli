@@ -28,3 +28,4 @@ starter/
 *.zip
 template/
 yarn.lock
+fpm-plugin*/
